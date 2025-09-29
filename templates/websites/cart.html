@@ -1,0 +1,48 @@
+{% extends "websites/common/base.html" %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block main_content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your Shopping Cart 🛒</h1>
+    {% if products_in_cart %}
+    <div class="list-group">
+        {% for item in products_in_cart %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <h5>{{ item.product.name }}</h5>
+                <p class="mb-0 text-muted">Price: ${{ item.product.price }}</p>
+                
+                <div class="d-flex align-items-center mt-2">
+                    <form action="{% url 'update-cart' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                        <input type="hidden" name="action" value="remove">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">-</button>
+                    </form>
+                    <span class="mx-2">Qty: {{ item.quantity }}</span>
+                    <form action="{% url 'update-cart' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                        <input type="hidden" name="action" value="add">
+                        <button type="submit" class="btn btn-sm btn-outline-success">+</button>
+                    </form>
+                </div>
+            </div>
+            <span class="fs-5">${{ item.subtotal|floatformat:2 }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="d-flex justify-content-end mt-4">
+        <h3>Total: ${{ total_price|floatformat:2 }}</h3>
+    </div>
+    <div class="d-grid mt-3">
+        <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg">Proceed to Checkout</a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Your cart is empty. Start shopping!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

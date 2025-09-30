@@ -10,11 +10,6 @@
             <a href="{% url 'product-detail' product.pk %}" class="text-decoration-none text-dark">
                 <div class="card h-100 shadow-sm border-0">
                     
-                    {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
-                    {% else %}
-                    <img src="https://via.placeholder.com/400x250/C0E9ED/343a40?text=E-Shop+Product" class="card-img-top" alt="Image Unavailable" style="height: 250px; object-fit: cover;">
-                    {% endif %}
                     
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary">{{ product.name }}</h5>
